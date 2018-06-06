@@ -131,7 +131,6 @@
   :init (setq elm-indent-offset 2)
   :mode ("\\.elm$" . elm-mode))
 
-
 (use-package haskell-mode
   :config
   (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
@@ -162,7 +161,7 @@
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown"))
 
-(use-package ng2-mode)
+(use-package ng2-mode) ;; Angular mode
 
 (use-package purescript-mode
   :mode ("\\.purs$" . purescript-mode))
