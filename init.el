@@ -25,15 +25,17 @@
 (setq large-file-warning-threshold 100000000
       ring-bell-function 'ignore)
 
-(add-hook 'prog-mode-hook 'linum-mode) ;; number lines in all prog-mode descendants
-
+;; Set frame size to max on load
 (add-hook 'after-init-hook '(lambda () (toggle-frame-maximized)))
 (setq initial-buffer-choice (eshell))
 
+;; General line numbering
+(add-hook 'prog-mode-hook 'linum-mode) ;; number lines in all prog-mode descendants
 (setq fill-column 80
       global-visual-line-mode t
       linum-format "%4d \u2502")
 
+;; Better scrolling
 (setq mouse-wheel-follow-mouse 't)
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
 (use-package smooth-scrolling
@@ -41,44 +43,19 @@
 
 (delete-selection-mode 1)
 
-(winner-mode t)
+(winner-mode t) ;; undo/redo for window config
 
 (setq enable-recursive-minibuffers t) ;; allow ex: swiper recursive minibuffer
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-(defun find-user-init-file ()
-  "Edit the 'user-init-file' in another window."
-  (interactive)
-  (find-file user-init-file))
-
-(global-set-key (kbd "C-c I") 'find-user-init-file)
-
 
 ;; ---- Key bindings ----
-
-(defun move-line-up ()
-  "Move the line at point up."
-  (interactive)
-  (transpose-lines 1)
-  (forward-line -2)
-  (indent-according-to-mode))
-
-(defun move-line-down ()
-  "Move the line at point down."
-  (interactive)
-  (forward-line 1)
-  (transpose-lines 1)
-  (forward-line -1)
-  (indent-according-to-mode))
 
 (setq mac-command-modifier 'super)
 (setq ns-function-modifier 'hyper)
 
 (global-set-key (kbd "C-c e") 'eshell)
-
-(global-set-key (kbd "M-p") 'move-line-up)
-(global-set-key (kbd "M-n") 'move-line-down)
 
 (global-set-key (kbd "C-s") 'swiper)
 (global-set-key (kbd "C-+") 'text-scale-increase)
@@ -89,6 +66,28 @@
 (global-set-key (kbd "C-c u C-c") 'uncomment-region)
 
 (global-set-key (kbd "C-x g") 'magit-status)
+
+(defun move-line-up ()
+  "Move the line at point up."
+  (interactive)
+  (transpose-lines 1)
+  (forward-line -2)
+  (indent-according-to-mode))
+(defun move-line-down ()
+  "Move the line at point down."
+  (interactive)
+  (forward-line 1)
+  (transpose-lines 1)
+  (forward-line -1)
+  (indent-according-to-mode))
+(global-set-key (kbd "M-p") 'move-line-up)
+(global-set-key (kbd "M-n") 'move-line-down)
+
+(defun find-user-init-file ()
+  "Edit the 'user-init-file' in another window."
+  (interactive)
+  (find-file user-init-file))
+(global-set-key (kbd "C-c I") 'find-user-init-file)
 
 
 ;; ---- Aliases ----
@@ -234,6 +233,7 @@
 
 (use-package better-defaults)
 
+;; text completion
 (use-package company
 	     :diminish company-mode
 	     :config (global-company-mode))
@@ -254,6 +254,7 @@
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
 
+;; syntax checking
 (use-package flycheck)
 
 (use-package idle-highlight-mode
@@ -330,7 +331,7 @@
   :init (global-whitespace-cleanup-mode))
 
 
-;; -- Appearance --
+;; -- Appearance & Fonts --
 
 (use-package color-theme-sanityinc-tomorrow
   :config
@@ -351,9 +352,6 @@
   (require 'spaceline-config)
   (spaceline-spacemacs-theme))
 
-
-;; -- Fonts --
-
 (set-face-attribute 'default nil
                     :family "Source Code Pro"
                     :height 170)
@@ -362,7 +360,6 @@
 
 (set-frame-parameter (selected-frame) 'alpha '(95 75))
 (add-to-list 'default-frame-alist '(alpha 95 75))
-
 
 
 
