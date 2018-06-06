@@ -3,7 +3,7 @@
 
 (setq gc-cons-threshold 100000000)
 
-;; Set up packages
+;; ---- Set up packages ----
 
 (require 'package)
 
@@ -19,7 +19,8 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-;; Emacs initialization
+
+;; ---- Emacs initialization ----
 
 (setq large-file-warning-threshold 100000000
       ring-bell-function 'ignore)
@@ -54,26 +55,64 @@
 (global-set-key (kbd "C-c I") 'find-user-init-file)
 
 
+;; ---- Key bindings ----
+
+(defun move-line-up ()
+  "Move the line at point up."
+  (interactive)
+  (transpose-lines 1)
+  (forward-line -2)
+  (indent-according-to-mode))
+
+(defun move-line-down ()
+  "Move the line at point down."
+  (interactive)
+  (forward-line 1)
+  (transpose-lines 1)
+  (forward-line -1)
+  (indent-according-to-mode))
+
+(setq mac-command-modifier 'super)
+(setq ns-function-modifier 'hyper)
+
+(global-set-key (kbd "C-c e") 'eshell)
+
+(global-set-key (kbd "M-p") 'move-line-up)
+(global-set-key (kbd "M-n") 'move-line-down)
+
+(global-set-key (kbd "C-s") 'swiper)
+(global-set-key (kbd "C-+") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
+
+(global-set-key (kbd "C-c u b") 'ido-switch-buffer)
+(global-set-key (kbd "C-c u c") 'comment-region)
+(global-set-key (kbd "C-c u C-c") 'uncomment-region)
+
+(global-set-key (kbd "C-x g") 'magit-status)
+
+
 ;; ---- Aliases ----
 
 (defalias 'list-buffers 'ibuffer)
 
-;; Eshell
+;; -- Eshell --
 (defalias 'ls "ls -a")
 (defalias 'yes-or-no-p 'y-or-n-p)
 (defalias 'ff 'find-file)
 (defalias 'ffo 'find-file-other-window)
 
-;; Git
+;; -- Git --
 (defalias 'gst "git status")
 (defalias 'gb "git branch")
 
-;; M-x
+;; -- M-x --
 (defalias 'eb 'eval-buffer)
 
-;; ---- Use Package ----
 
-(use-package better-defaults)
+;; ---- Packages ----
+
+;; -- Language-specific --
+
 (use-package clojure-mode
 	     :config
 	     (add-hook 'clojure-mode-hook 'enable-paredit-mode)
@@ -87,20 +126,12 @@
 	     (add-hook 'cider-repl-mode-hook 'subword-mode)
 	     (add-hook 'cider-repl-mode-hook 'paredit-mode))
 
-(use-package company
-	     :diminish company-mode
-	     :config (global-company-mode))
-
-(use-package exec-path-from-shell
-  :config
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)))
+(setq css-indent-offset 2)
 
 (use-package elm-mode
   :init (setq elm-indent-offset 2)
   :mode ("\\.elm$" . elm-mode))
 
-(use-package flycheck)
 
 (use-package haskell-mode
   :config
@@ -125,22 +156,6 @@
   :config
   (add-hook 'js2-mode-hook (lambda () (setq js2-basic-offset 2))))
 
-(use-package rainbow-delimiters
-  :config
-  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
-
-(use-package idle-highlight-mode
-  :diminish idle-highlight-mode
-  :config
-  (add-hook 'prog-mode-hook
-            (lambda ()
-              (idle-highlight-mode t))))
-
-(use-package magit
-  :bind
-  ("C-c C-g b" . magit-branch-popup)
-  ("C-c C-g c" . magit-commit-popup))
-
 (use-package markdown-mode
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
@@ -148,20 +163,7 @@
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown"))
 
-(use-package paredit
-  :diminish paredit-mode
-  :config
-  (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
-  (add-hook 'lisp-mode-hook 'enable-paredit-mode)
-  (add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode)
-  (setq cider-cljs-lein-repl
-	"(do (require 'figwheel-sidecar.repl-api)
-         (figwheel-sidecar.repl-api/start-figwheel!)
-         (figwheel-sidecar.repl-api/cljs-repl))"))
-
-(use-package projectile
-  :diminish projectile-mode
-  :config (projectile-global-mode))
+(use-package ng2-mode)
 
 (use-package purescript-mode
   :mode ("\\.purs$" . purescript-mode))
@@ -182,93 +184,9 @@
   (setq psc-ide-flycheck-ignored-error-codes
         '("ImplicitImport")))
 
-(use-package neotree
-  :config
-  (setq-local linum-mode nil)
-  (setq neo-autorefresh nil)
-  ;; (setq neo-window-fixed-size f)
-  (setq neo-window-width 30)
-  (setq neo-smart-open t)
-  (setq neo-window-position 'right)
-  (global-set-key (kbd "C-c d") 'neotree-toggle))
-
-(use-package repl-toggle
-  :config
-  (repl-toggle-mode)
-  (setq rtog/mode-repl-alist
-        '((purescript-mode . psci))))
-
 ; (use-package rjsx-mode
 ;   :config
 ;   (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\" . rjsx-mode)))
-
-(use-package helm-spotify-plus)
-(use-package multi) ;; dependency for help-spotify-plus
-
-(use-package which-key
-	     :diminish which-key-mode
-	     :init (which-key-mode))
-
-(use-package whitespace
-  :commands (whitespace-mode)
-  :config
-  (setq whitespace-style '(face tabs spaces newline empty
-                                trailing tab-mark newline-mark)))
-
-(use-package whitespace-cleanup-mode
-  :diminish whitespace-cleanup-mode
-  :init (global-whitespace-cleanup-mode))
-
-(use-package yaml-mode
-  :mode "\\.yaml\\'")
-
-(use-package ivy
-  :diminish (ivy-mode . "")
-  :init (ivy-mode 1)
-  :bind (:map ivy-mode-map
-              ("C-'" . ivy-avy))
-  :config
-  (setq ivy-use-virtual-buffers t)
-  (setq ivy-height 20)
-  (setq ivy-count-format "(%d/%d) "))
-
-(use-package avy
-  :config
-  (setq avy-background t)
-  :bind
-  ("C-;" . avy-goto-word-1))
-
-(use-package counsel
-             :bind
-             (("M-x"     . counsel-M-x)
-              ("<C-SPC>" . counsel-M-x)
-              ("C-x C-f" . counsel-find-file)
-              ("C-x C-r" . counsel-recentf)
-              ("C-c f"   . counsel-git)
-              ("C-c s"   . counsel-git-grep)
-              ("C-c /"   . counsel-ag)
-              ("C-c l"   . counsel-locate)))
-
-(use-package swiper)
-
-(use-package color-theme-sanityinc-tomorrow
-  :config
-  (setf custom-safe-themes t)
-  (color-theme-sanityinc-tomorrow-eighties))
-
-(use-package powerline
-  :config (progn
-            (setq powerline-default-separator 'arrow-fade)
-            (setq powerline-display-hud t)
-            (setq powerline-display-buffer-size nil)
-            (setq powerline-display-mule-info nil)
-            (powerline-center-theme)))
-
-(use-package spaceline
-  :init (setq powerline-default-separate 'arrow-fade)
-  :config
-  (require 'spaceline-config)
-  (spaceline-spacemacs-theme))
 
 (use-package typescript-mode
   :mode "\\.ts\\'"
@@ -289,7 +207,7 @@
 (use-package tide
   :config
   (setq company-tooltip-align-annotations t)
-  ;;(add-hook 'before-save-hook 'tide-format-before-save)
+  ;; (add-hook 'before-save-hook 'tide-format-before-save)
   (add-hook 'typescript-mode-hook #'setup-tide-mode))
 
 (use-package ts-comint
@@ -302,50 +220,139 @@
               (local-set-key (kbd "C-c C-b") 'ts-send-buffer-and-go)
               (local-set-key (kbd "C-c l") 'ts-load-file-and-go))))
 
-(use-package ng2-mode)
-
-(setq css-indent-offset 2)
-
-
-;; ---- Custom functions ----
-
-(defun move-line-up ()
-  "Move the line at point up."
-  (interactive)
-  (transpose-lines 1)
-  (forward-line -2)
-  (indent-according-to-mode))
-
-(defun move-line-down ()
-  "Move the line at point down."
-  (interactive)
-  (forward-line 1)
-  (transpose-lines 1)
-  (forward-line -1)
-  (indent-according-to-mode))
-
-;; ---- Key bindings ----
-
-(setq mac-command-modifier 'super)
-(setq ns-function-modifier 'hyper)
-
-(global-set-key (kbd "C-c e") 'eshell)
-
-(global-set-key (kbd "M-p") 'move-line-up)
-(global-set-key (kbd "M-n") 'move-line-down)
-
-(global-set-key (kbd "C-s") 'swiper)
-(global-set-key (kbd "C-+") 'text-scale-increase)
-(global-set-key (kbd "C--") 'text-scale-decrease)
-
-(global-set-key (kbd "C-c u b") 'ido-switch-buffer)
-(global-set-key (kbd "C-c u c") 'comment-region)
-(global-set-key (kbd "C-c u C-c") 'uncomment-region)
-
-(global-set-key (kbd "C-x g") 'magit-status)
+(use-package yaml-mode
+  :mode "\\.yaml\\'")
 
 
-;; ---- Fonts ----
+;; -- General --
+
+(use-package avy
+  :config
+  (setq avy-background t)
+  :bind
+  ("C-;" . avy-goto-word-1))
+
+(use-package better-defaults)
+
+(use-package company
+	     :diminish company-mode
+	     :config (global-company-mode))
+
+(use-package counsel
+             :bind
+             (("M-x"     . counsel-M-x)
+              ("<C-SPC>" . counsel-M-x)
+              ("C-x C-f" . counsel-find-file)
+              ("C-x C-r" . counsel-recentf)
+              ("C-c f"   . counsel-git)
+              ("C-c s"   . counsel-git-grep)
+              ("C-c /"   . counsel-ag)
+              ("C-c l"   . counsel-locate)))
+
+(use-package exec-path-from-shell
+  :config
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
+
+(use-package flycheck)
+
+(use-package idle-highlight-mode
+  :diminish idle-highlight-mode
+  :config
+  (add-hook 'prog-mode-hook
+            (lambda ()
+              (idle-highlight-mode t))))
+
+(use-package ivy
+  :diminish (ivy-mode . "")
+  :init (ivy-mode 1)
+  :bind (:map ivy-mode-map
+              ("C-'" . ivy-avy))
+  :config
+  (setq ivy-use-virtual-buffers t)
+  (setq ivy-height 20)
+  (setq ivy-count-format "(%d/%d) "))
+
+(use-package magit
+  :bind
+  ("C-c C-g b" . magit-branch-popup)
+  ("C-c C-g c" . magit-commit-popup))
+
+(use-package neotree
+  :config
+  (setq-local linum-mode nil)
+  (setq neo-autorefresh nil)
+  ;; (setq neo-window-fixed-size f)
+  (setq neo-window-width 30)
+  (setq neo-smart-open t)
+  (setq neo-window-position 'right)
+  (global-set-key (kbd "C-c d") 'neotree-toggle))
+
+(use-package paredit
+  :diminish paredit-mode
+  :config
+  (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
+  (add-hook 'lisp-mode-hook 'enable-paredit-mode)
+  (add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode)
+  (setq cider-cljs-lein-repl
+	"(do (require 'figwheel-sidecar.repl-api)
+         (figwheel-sidecar.repl-api/start-figwheel!)
+         (figwheel-sidecar.repl-api/cljs-repl))"))
+
+(use-package projectile
+  :diminish projectile-mode
+  :config (projectile-global-mode))
+
+(use-package rainbow-delimiters
+  :config
+  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+
+(use-package repl-toggle
+  :config
+  (repl-toggle-mode)
+  (setq rtog/mode-repl-alist
+        '((purescript-mode . psci))))
+
+(use-package swiper)
+
+(use-package which-key
+	     :diminish which-key-mode
+	     :init (which-key-mode))
+
+(use-package whitespace
+  :commands (whitespace-mode)
+  :config
+  (setq whitespace-style '(face tabs spaces newline empty
+                                trailing tab-mark newline-mark)))
+
+(use-package whitespace-cleanup-mode
+  :diminish whitespace-cleanup-mode
+  :init (global-whitespace-cleanup-mode))
+
+
+;; -- Appearance --
+
+(use-package color-theme-sanityinc-tomorrow
+  :config
+  (setf custom-safe-themes t)
+  (color-theme-sanityinc-tomorrow-eighties))
+
+(use-package powerline
+  :config (progn
+            (setq powerline-default-separator 'arrow-fade)
+            (setq powerline-display-hud t)
+            (setq powerline-display-buffer-size nil)
+            (setq powerline-display-mule-info nil)
+            (powerline-center-theme)))
+
+(use-package spaceline
+  :init (setq powerline-default-separate 'arrow-fade)
+  :config
+  (require 'spaceline-config)
+  (spaceline-spacemacs-theme))
+
+
+;; -- Fonts --
 
 (set-face-attribute 'default nil
                     :family "Source Code Pro"
@@ -355,6 +362,8 @@
 
 (set-frame-parameter (selected-frame) 'alpha '(95 75))
 (add-to-list 'default-frame-alist '(alpha 95 75))
+
+
 
 
 ;; ---- Auto-generated stuff below this line (don't touch!) ----
