@@ -1,0 +1,5 @@
+# key: import-from
+# name: typescript-import-from
+# binding: [3 3 105 102]
+# --
+import { $1 } from '$2';

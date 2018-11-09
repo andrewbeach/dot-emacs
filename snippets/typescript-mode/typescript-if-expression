@@ -1,0 +1,4 @@
+# key: tern
+# name: typescript-if-expression
+# --
+(${1:if}) ? ${2:then} : ${3:else};

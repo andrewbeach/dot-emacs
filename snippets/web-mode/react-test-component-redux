@@ -1,0 +1,38 @@
+# key: react-test-component-redux
+# name: react-test-component-redux
+# binding: [3 3 114 116 3 114]
+# --
+import * as React from 'react';
+import * as Enzyme from 'enzyme';
+import * as Adapter from 'enzyme-adapter-react-16';
+import { createMockStore } from 'redux-test-utils';
+
+import { IState } from 'src/types';
+import initialState from './redux/initialState';
+
+import $1 from './$1';
+
+
+// --- Test config
+
+Enzyme.configure({ adapter: new Adapter() });
+
+
+// --- Test helpers
+
+const setup = (testState: IState, props: any) => {
+    const mockStore = createMockStore(testState);
+
+    const wrapper = Enzyme.shallow(<$1 { ...props } />, {context: {store: mockStore}}).dive();
+    return { wrapper };
+};
+
+
+// --- Tests
+
+describe('$1 component', () => {
+
+    describe('$1 ***** stubbed', () => {
+        $0
+    });
+});

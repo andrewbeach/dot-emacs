@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: function-bin-curry
+# key: func
+# --
+const ${1:myFunction} = ($2) => ($3) => $4;

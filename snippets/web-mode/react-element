@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: react-element
+# key: rel
+# --
+<$1 $0 />

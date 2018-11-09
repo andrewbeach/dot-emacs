@@ -1,0 +1,21 @@
+# key: react-cmp-fn
+# name: react-cmp-fn
+# binding: C-c C-c r c f
+# --
+interface I$1Props {
+  $2: $3; $0
+}
+
+const ${1:Component} = ({
+  $2
+}: I$1Props) => {
+
+  return (
+    <div>
+      $4
+    </div>
+  )
+
+}
+
+export default $1;

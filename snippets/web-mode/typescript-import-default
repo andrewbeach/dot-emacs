@@ -1,0 +1,5 @@
+# key: import-def
+# name: typescript-import-default
+# binding: [3 3 105 100]
+# --
+import $1 from '$2';

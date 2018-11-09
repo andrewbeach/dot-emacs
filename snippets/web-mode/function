@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: function
+# key: fun
+# --
+const $1 = ($2) => $3;

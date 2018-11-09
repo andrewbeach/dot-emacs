@@ -1,0 +1,44 @@
+# key: react-cmp-class-redux
+# name: react-cmp-class-redux
+# binding: C-c C-c r c C-c r
+# --
+import React from 'react';
+import { connect } from 'react-redux';
+import { IState } from 'src/types';
+
+interface I$1Props {
+  $2: $4; $0
+}
+
+interface I$1State {
+    $5: $6;
+}
+
+class Inner${1:Class} extends React.Component<I$1Props,I$1State> {
+  constructor(props: I$1Props) {
+    super(props);
+    this.state = {
+      $5: $7
+    };
+  }
+
+  public render() {
+    return (
+      <div>
+        $8
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = (state: IState) => ({
+  ${2:prop}: $3;
+});
+
+const mapDispatchToProps = (dispatch: any) => ({
+
+})
+
+const $1 = connect(mapStateToProps, mapDispatchToProps)(Inner$1);
+
+export default $1;

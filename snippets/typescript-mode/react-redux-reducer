@@ -1,0 +1,23 @@
+# key: react-redux-reducer
+# name: react-redux-reducer
+# binding: [3 3 114 114 114]
+# --
+import * as R from 'ramda';
+import { IAction, IState } from 'src/types';
+import types from "../constants/ActionType";
+
+const reducer = (s: IState, a: IAction): IState => {
+    return $0
+};
+
+const action = (${5: $6: $7}): IAction => ({
+    type: types.$1,
+    ${2:payload: {
+      $3: $4
+    }}
+});
+
+export {
+  action,
+  reducer
+}

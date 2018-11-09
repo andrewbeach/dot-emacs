@@ -1,0 +1,37 @@
+# -*- mode: snippet -*-
+# name: react-cmp-fn-redux
+# key: react-cmp-fn-redux
+# binding: C-c C-c r c C-f r
+# --
+import * as React from 'react';
+import { connect } from 'redux';
+import { IState } from 'src/types';
+
+interface I$1Props {
+  $2: $5;
+  $6: $7;
+}
+
+const Inner${1:Component} = ({
+  $2,
+  $6
+}: I$1Props) => {
+
+  return (
+    <div>
+      $0
+    </div>
+  );
+};
+
+const mapStateToProps = (state: IState) => ({
+  ${2:prop}: ${3:value}
+});
+
+const mapDispatchToProps = (dispatch: any) => ({
+  ${4:fn}
+});
+
+const $1 = connect(mapStateToProps, mapDispatchToProps)(Inner$1);
+
+export default $1;

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: typescript-if-expression-multiline
+# key: ternm
+# --
+(${1:if})
+? ${2:then}
+: ${3:else}

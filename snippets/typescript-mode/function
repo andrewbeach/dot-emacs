@@ -1,0 +1,4 @@
+# key: fun
+# name: function
+# --
+const $1 = ($2) => $3;$0

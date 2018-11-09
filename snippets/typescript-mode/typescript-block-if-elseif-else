@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: typescript-block-if-elseif-else
+# key: typescript-block-if-elseif-else
+# binding: C-c C-c b C-e
+# --
+if($1) {
+  return $2;
+} else if($3) {
+  return $4;
+} else {
+  return $5;
+}

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: table-row
+# key: tr
+# --
+<tr>
+  $0
+</tr>

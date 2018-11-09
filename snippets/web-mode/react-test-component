@@ -1,0 +1,29 @@
+# key: react-test-component
+# name: react-test-component
+# binding: [3 3 114 116 99]
+# --
+import * as React from 'react';
+import * as Enzyme from 'enzyme';
+import * as Adapter from 'enzyme-adapter-react-16';
+
+import $1 from './$1';
+
+
+// --- Test config
+
+Enzyme.configure({ adapter: new Adapter() });
+
+
+// --- Test helpers
+
+const setup = (props: any) => Enzyme.shallow(<$1 { ...props } />);
+
+
+// --- Tests
+
+describe('$1 component', () => {
+
+    describe('$1 ***** stubbed', () => {
+      $0
+    });
+});

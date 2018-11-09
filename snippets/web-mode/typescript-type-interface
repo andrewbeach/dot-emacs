@@ -1,0 +1,7 @@
+# key: typescript-type-interface
+# name: typescript-type-interface
+# binding: [3 3 116 116 105]
+# --
+${4:export }interface I$1 {
+  $2: $3;
+}

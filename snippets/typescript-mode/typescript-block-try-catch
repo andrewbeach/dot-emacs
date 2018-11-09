@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: typescript-block-try-catch
+# key: typescript-block-try-catch
+# binding: C-c C-c b t
+# --
+try {
+  $1
+} catch {
+  $0
+}

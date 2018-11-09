@@ -1,0 +1,5 @@
+# key: typescript
+# name: typescript-block-if
+# binding: [3 3 98 105]
+# --
+if($1) { return $2; }

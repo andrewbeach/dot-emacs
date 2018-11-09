@@ -1,0 +1,30 @@
+# key: react-cmp-class
+# name: react-cmp-class
+# binding: C-c C-c r c c
+# --
+import React from 'react';
+
+interface I$1Props {
+  $2
+}
+
+interface I$1State {
+  $3
+}
+
+class ${1:Component} extends React.Component<I$1Props,I$1State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      $4
+    };
+  }
+
+  public render() {
+    return (
+      <div>$0</div>
+    )
+  }
+}
+
+export default $1;

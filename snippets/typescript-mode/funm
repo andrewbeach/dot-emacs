@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: funm
+# key: funm
+# --
+const $1 = ($2) => {
+  $3
+};
+$0

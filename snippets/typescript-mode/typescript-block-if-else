@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: typescript-block-if-else
+# key: ifelse
+# binding: C-c C-c b e
+# --
+if($1) {
+  return $2;
+} else {
+  return $0;
+}

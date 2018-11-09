@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: typescript-import-from
+# key: import-from
+# binding: C-c C-c i f
+# --
+import { $1 } from '$2';

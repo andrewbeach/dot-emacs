@@ -1,0 +1,4 @@
+# key: expect
+# name: expect-to-be
+# --
+expect($1).toBe($2);

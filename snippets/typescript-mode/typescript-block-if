@@ -1,0 +1,5 @@
+# key: if
+# name: typescript-block-if
+# binding: C-c C-c b i
+# --
+if($1) { return $2; }

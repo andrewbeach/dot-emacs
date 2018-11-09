@@ -121,11 +121,14 @@
 (use-package cider
 	     :init (setq cider-repl-display-help-banner nil)
 	     :config
+             (setq cider-repl-use-clojure-font-lock t)
 	     (add-hook 'cider-mode-hook 'eldoc-mode)
 	     (add-hook 'cider-repl-mode-hook 'subword-mode)
 	     (add-hook 'cider-repl-mode-hook 'paredit-mode))
 
 (setq css-indent-offset 2)
+
+(use-package alchemist)
 
 (use-package elm-mode
   :init (setq elm-indent-offset 2)
@@ -184,7 +187,16 @@
 
 ; (use-package rjsx-mode
 ;   :config
-;   (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\" . rjsx-mode)))
+                                        ;   (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\" . rjsx-mode)))
+
+(use-package reason-mode
+  :config
+  (add-hook 'before-save-hook
+            (lambda ()
+              (flycheck-mode)
+              (refmt-before-save))))
+
+(use-package scala-mode)
 
 (use-package typescript-mode
   :mode "\\.ts\\'"
@@ -218,6 +230,15 @@
               (local-set-key (kbd "C-c C-b") 'ts-send-buffer-and-go)
               (local-set-key (kbd "C-c l") 'ts-load-file-and-go))))
 
+(use-package web-mode
+  :mode (("\\.tsx\\'" . web-mode))
+  :config
+  (setq web-mode-enable-auto-quoting nil)
+  (add-hook 'web-mode-hook
+            (lambda ()
+              (when (string-equal "tsx" (file-name-extension buffer-file-name))
+                (setup-tide-mode)))))
+
 (use-package yaml-mode
   :mode "\\.yaml\\'")
 
@@ -247,6 +268,10 @@
               ("C-c s"   . counsel-git-grep)
               ("C-c /"   . counsel-ag)
               ("C-c l"   . counsel-locate)))
+
+(use-package editorconfig
+  :ensure t
+  :config (editorconfig-mode 1))
 
 (use-package exec-path-from-shell
   :config
@@ -329,6 +354,11 @@
   :diminish whitespace-cleanup-mode
   :init (global-whitespace-cleanup-mode))
 
+(use-package yasnippet
+  :ensure t
+  :init (yas-global-mode 1)
+  :config (add-to-list 'yas-snippet-dirs (locate-user-emacs-file "snippets")))
+
 
 ;; -- Appearance & Fonts --
 
@@ -357,8 +387,42 @@
 (set-face-attribute 'bold nil :family "Source Code Pro Bold"
                     :height 170)
 
-(set-frame-parameter (selected-frame) 'alpha '(95 75))
-(add-to-list 'default-frame-alist '(alpha 95 75))
+(set-frame-parameter (selected-frame) 'alpha '(95 90))
+(add-to-list 'default-frame-alist '(alpha 95 90))
+
+
+;; ---- Yasnippet prefix aliases ----
+
+(which-key-add-major-mode-key-based-replacements 'web-mode
+  "C-c C-c" "insert-snippet"
+  "C-c C-c r" "react"
+  "C-c C-c r c" "component"
+  "C-c C-c r c f" "functional"
+  "C-c C-c r c C-f" "functional with"
+  "C-c C-c r c C-f r" "redux"
+  "C-c C-c r c c" "class"
+  "C-c C-c r c C-c" "class with"
+  "C-c C-c r c C-c r" "redux"
+  "C-c C-c t" "typescript"
+  "C-c C-c t t" "type"
+  "C-c C-c t t t" "type"
+  "C-c C-c t t i" "interface")
+
+(which-key-add-major-mode-key-based-replacements 'typescript-mode
+  "C-c C-c" "insert-snippet"
+  "C-c C-c r" "react"
+  "C-c C-c r r" "redux"
+  "C-c C-c r r r" "reducer"
+  "C-c C-c r t" "test"
+  "C-c C-c r t r" "redux"
+  "C-c C-c r t r r" "reducer"
+  "C-c C-c t" "type"
+  "C-c C-c t i" "interface"
+  "C-c C-c b" "block"
+  "C-c C-c b i" "if"
+  "C-c C-c b e" "if-else"
+  "C-c C-c b C-e" "if-elseif-else"
+  "C-c C-c b t" "try/catch")
 
 
 
@@ -369,6 +433,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(cider-repl-use-pretty-printing t)
  '(custom-enabled-themes (quote (sanityinc-tomorrow-eighties)))
  '(eshell-output-filter-functions
    (quote
@@ -376,13 +441,15 @@
  '(eshell-scroll-to-bottom-on-output nil)
  '(package-selected-packages
    (quote
-    (heml-spotify-plus yaml-mode rjsx-mode rjxs-mode smartparens ts-comint tide js2-mode elm-mode repl-toggle psci psc-ide purescript-mode exec-path-from-shell haskell-mode smooth-scrolling ng2-mode typescript-mode whitespace-cleanup-mode which-key use-package spaceline smex rainbow-delimiters projectile paredit neotree markdown-mode magit idle-highlight-mode highlight-parentheses counsel company color-theme-sanityinc-tomorrow cider better-defaults avy)))
+    (yasnippet scala-mode alchemist auctex reason-mode web-mode editorconfig heml-spotify-plus yaml-mode rjsx-mode rjxs-mode smartparens ts-comint tide js2-mode elm-mode repl-toggle psci psc-ide purescript-mode exec-path-from-shell haskell-mode smooth-scrolling ng2-mode typescript-mode whitespace-cleanup-mode which-key use-package spaceline smex rainbow-delimiters projectile paredit neotree markdown-mode magit idle-highlight-mode highlight-parentheses counsel company color-theme-sanityinc-tomorrow cider better-defaults avy)))
  '(show-paren-mode t)
- '(tool-bar-mode nil))
+ '(tool-bar-mode nil)
+ '(typescript-expr-indent-offset 0))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "#2d2d2d" :foreground "#cccccc" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "nil" :family "Source Code Pro"))))
+ '(cider-repl-stderr-face ((t (:foreground "light green" :weight normal))))
  '(eshell-prompt ((t (:foreground "gray81" :weight bold)))))

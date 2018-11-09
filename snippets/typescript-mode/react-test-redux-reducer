@@ -1,0 +1,40 @@
+# -*- mode: snippet -*-
+# name: react-test-redux-reducer
+# key: react-test-redux-reducer
+# binding: C-c C-c r t r r
+# --
+import * as R from 'ramda';
+import * as sut from './${1:reducer}.ts';
+import { IAction } from 'src/types';
+import types from 'src/constants/ActionType';
+import initialState from './initialState';
+import rootReducer from './rootReducer';
+
+const action = { type: types.$1 ${2:,payload: {$3}} };
+
+describe('$1 action', () => {
+    it('should create object with $1 and correct type ***** stubbed', () => {
+        const expectedRes: IAction = { type: types.$1 };
+        const actualRes = sut.action();
+
+        expect(actualRes).toEqual(expectedRes);
+    })
+});
+
+describe('$1 reducer', () => {
+    it('should set State ***** stubbed', () => {
+        const res = sut.reducer(initialState, action);
+
+        expect(true).toBe(true);
+    })
+})
+
+describe('$1 redux integration', () => {
+  it('should route $1 from the rootReducer ***** stubbed ', () => {
+      const spy = jest.spyOn(sut, 'reducer');
+      const newState = rootReducer(initialState, action);
+
+      expect(spy).toHaveBeenCalledWith(initialState, action);
+      expect(true).toBe(true);
+  })
+})

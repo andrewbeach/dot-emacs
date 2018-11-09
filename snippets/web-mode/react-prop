@@ -1,0 +1,4 @@
+# key: p
+# name: react-prop
+# --
+${1:k}={$0}
