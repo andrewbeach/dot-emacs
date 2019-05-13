@@ -67,6 +67,15 @@
 
 (global-set-key (kbd "C-x g") 'magit-status)
 
+;; -- Unicode characters --
+
+(global-set-key (kbd "H-a") (lambda () (interactive) (insert "∀")))
+(global-set-key (kbd "H-.") (lambda () (interactive) (insert "→")))
+(global-set-key (kbd "H-,") (lambda () (interactive) (insert "←")))
+(global-set-key (kbd "H->") (lambda () (interactive) (insert "⇒")))
+(global-set-key (kbd "H-<") (lambda () (interactive) (insert "⇐")))
+(global-set-key (kbd "H-;") (lambda () (interactive) (insert "∷")))
+
 (defun move-line-up ()
   "Move the line at point up."
   (interactive)
@@ -151,6 +160,8 @@
   (setq haskell-process-args-cabal-new-repl
         '("--ghc-options=-ferror-spans -fshow-loaded-modules")))
 
+(use-package idris-mode)
+
 (use-package js2-mode
   :mode (("\\.js$" . js2-mode))
   :interpreter ("node" . js2-mode)
@@ -201,7 +212,7 @@
 (use-package typescript-mode
   :mode "\\.ts\\'"
   :config
-  (setq typescript-indent-level 2)
+  (setq typescript-indent-level 4)
   :bind
   (("C-<right>" . sp-slurp-hybrid-sexp)))
 
@@ -245,6 +256,10 @@
 
 ;; -- General --
 
+(use-package ag
+  :bind
+  ("C-c a" . ag-project))
+
 (use-package avy
   :config
   (setq avy-background t)
@@ -277,6 +292,10 @@
   :config
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
+
+(use-package expand-region
+  :bind
+  ("C-=" . er/expand-region))
 
 ;; syntax checking
 (use-package flycheck)
@@ -354,6 +373,9 @@
   :diminish whitespace-cleanup-mode
   :init (global-whitespace-cleanup-mode))
 
+(use-package window-purpose
+  )
+
 (use-package yasnippet
   :ensure t
   :init (yas-global-mode 1)
@@ -384,7 +406,8 @@
 (set-face-attribute 'default nil
                     :family "Source Code Pro"
                     :height 170)
-(set-face-attribute 'bold nil :family "Source Code Pro Bold"
+(set-face-attribute 'bold nil
+                    :family "Source Code Pro Bold"
                     :height 170)
 
 (set-frame-parameter (selected-frame) 'alpha '(95 90))
@@ -439,9 +462,10 @@
    (quote
     (eshell-handle-control-codes eshell-handle-ansi-color eshell-watch-for-password-prompt)))
  '(eshell-scroll-to-bottom-on-output nil)
+ '(js-indent-level 2)
  '(package-selected-packages
    (quote
-    (yasnippet scala-mode alchemist auctex reason-mode web-mode editorconfig heml-spotify-plus yaml-mode rjsx-mode rjxs-mode smartparens ts-comint tide js2-mode elm-mode repl-toggle psci psc-ide purescript-mode exec-path-from-shell haskell-mode smooth-scrolling ng2-mode typescript-mode whitespace-cleanup-mode which-key use-package spaceline smex rainbow-delimiters projectile paredit neotree markdown-mode magit idle-highlight-mode highlight-parentheses counsel company color-theme-sanityinc-tomorrow cider better-defaults avy)))
+    (window-purpose ag idris-mode expand-region yasnippet scala-mode alchemist auctex reason-mode web-mode editorconfig heml-spotify-plus yaml-mode rjsx-mode rjxs-mode smartparens ts-comint tide js2-mode elm-mode repl-toggle psci psc-ide purescript-mode exec-path-from-shell haskell-mode smooth-scrolling ng2-mode typescript-mode whitespace-cleanup-mode which-key use-package spaceline smex rainbow-delimiters projectile paredit neotree markdown-mode magit idle-highlight-mode highlight-parentheses counsel company color-theme-sanityinc-tomorrow cider better-defaults avy)))
  '(show-paren-mode t)
  '(tool-bar-mode nil)
  '(typescript-expr-indent-offset 0))
